@@ -36,7 +36,6 @@ RUN npm install --production
 COPY --from=node-builder /app/src ./src
 COPY --from=node-builder /app/build ./build
 COPY --from=node-builder /app/frontend/dist ./frontend/dist
-COPY --from=node-builder /app/drizzle ./drizzle
 COPY --from=node-builder /app/src/db ./src/db
 
 # Expose API Port
