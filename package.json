@@ -1,0 +1,38 @@
+{
+  "name": "adsa-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev:api": "npx tsx src/server.js",
+    "dev:web": "npm run dev --prefix frontend",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "start": "npx tsx src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@better-auth/infra": "^0.2.6",
+    "@neondatabase/serverless": "^1.1.0",
+    "better-auth": "^1.6.10",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "postgres": "^3.4.9",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.2",
+    "concurrently": "^9.2.1",
+    "drizzle-kit": "^0.31.10",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  }
+}

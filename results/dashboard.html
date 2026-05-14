@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Routing Performance Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --text: #f8fafc;
+            --primary: #38bdf8;
+            --secondary: #818cf8;
+            --accent: #f472b6;
+        }
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .card {
+            background-color: var(--card);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Routing Performance Dashboard</h1>
+            <p>Advanced Data Structures & Algorithms Project</p>
+        </div>
+
+        <div class="card">
+            <h2 style="margin-top:0">Algorithm Scaling (Sparse Graphs)</h2>
+            <canvas id="scalingChart"></canvas>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2 style="margin-top:0">Comparison at N=2000</h2>
+                <canvas id="barChart"></canvas>
+            </div>
+            <div class="card">
+                <h2 style="margin-top:0">Theoretical vs Practical</h2>
+                <p>Observe how <b>Bellman-Ford</b> ($O(VE)$) starts to lag behind <b>Dijkstra</b> ($O(E \log V)$) as the node count increases. The Fibonacci Heap implementation provides the most stable performance at scale.</p>
+                <div style="margin-top:20px; padding:15px; background: rgba(56, 189, 248, 0.1); border-left: 4px solid var(--primary); border-radius: 4px;">
+                    <b>Key Insight:</b> At 2000 nodes, Dijkstra is ~3x faster than Bellman-Ford.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = [
+            {nodes: 100, binary: 0.09, fib: 0.59, bf: 0.17},
+            {nodes: 200, binary: 0.31, fib: 1.11, bf: 0.29},
+            {nodes: 500, binary: 0.68, fib: 2.06, bf: 1.07},
+            {nodes: 1000, binary: 2.05, fib: 5.68, bf: 6.36},
+            {nodes: 2000, binary: 5.87, fib: 12.44, bf: 17.93}
+        ];
+
+        const ctxScaling = document.getElementById('scalingChart').getContext('2d');
+        new Chart(ctxScaling, {
+            type: 'line',
+            data: {
+                labels: data.map(d => d.nodes),
+                datasets: [
+                    {
+                        label: 'Dijkstra (Binary)',
+                        data: data.map(d => d.binary),
+                        borderColor: '#38bdf8',
+                        tension: 0.3,
+                        fill: false
+                    },
+                    {
+                        label: 'Dijkstra (Fibonacci)',
+                        data: data.map(d => d.fib),
+                        borderColor: '#818cf8',
+                        tension: 0.3,
+                        fill: false
+                    },
+                    {
+                        label: 'Bellman-Ford',
+                        data: data.map(d => d.bf),
+                        borderColor: '#f472b6',
+                        tension: 0.3,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: { 
+                        title: { display: true, text: 'Time (ms)', color: '#94a3b8' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    x: { 
+                        title: { display: true, text: 'Number of Nodes (V)', color: '#94a3b8' },
+                        grid: { color: '#334155' },
+                        ticks: { color: '#94a3b8' }
+                    }
+                },
+                plugins: {
+                    legend: { labels: { color: '#f8fafc' } }
+                }
+            }
+        });
+
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: ['Binary', 'Fibonacci', 'Bellman-Ford'],
+                datasets: [{
+                    label: 'Execution Time (ms)',
+                    data: [5.87, 12.44, 17.93],
+                    backgroundColor: ['#38bdf8', '#818cf8', '#f472b6'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                    x: { ticks: { color: '#94a3b8' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

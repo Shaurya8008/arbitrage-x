@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: arbitrage-x
+    env: docker
+    plan: free # or starter
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DATABASE_URL
+        sync: false # User will need to add this in Render dashboard
+      - key: PORT
+        value: 3001
+    healthCheckPath: /api/health
