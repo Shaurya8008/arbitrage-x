@@ -8,10 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(include)
 
 # Source files
-set(SOURCES
-    src/main.cpp
-    # Add other source files here as they are created
-)
+file(GLOB SOURCES "src/*.cpp")
 
 # Executable
 add_executable(NetworkRoutingAnalyzer ${SOURCES})
